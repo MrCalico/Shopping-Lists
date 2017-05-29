@@ -13,48 +13,39 @@
    { "name": "Walmart" }
   ],
 "items": [ 
-    { "category": "Fresh vegetables", "items": [
-            { "name": "Asparagus" },
-            { "name": "Broccoli" },
-            { "name": "Carrots" },
-            { "name": "Cauliflower" },
-            { "name": "Celery" },
-            { "name": "Corn" },
-            { "name": "Cucumbers" },
-            { "name": "Lettuce" },
-            { "name": "Mushrooms" },
-            { "name": "Onions" },
-            { "name": "Peppers" },
-            { "name": "Potatoes" },
-            { "name": "Spinach" },
-            { "name": "Squash" },
-            { "name": "Zucchini" },
-            { "name": "Tomatoes" }
-            ]
-    },
-    { "category" : "Dairy" , "items": [
-            { "name": "Butter" },
-            { "name": "Margarine" },
-            { "name": "Cottage cheese" },
-            { "name": "Half & half" },
-            { "name": "Milk" },
-            { "name": "Sour cream" },
-            { "name": "Whipped cream" },
-            { "name": "Yogurt" },
-            { "name": "Creamer" }
-            ]
-    },
-    {"category": "Seafood", "items": [
-        { "name": "Catfish" },
-        { "name": "Crab" },
-        { "name": "Lobster" },
-        { "name": "Mussels" },
-        { "name": "Oysters" },
-        { "name": "Salmon" },
-        { "name": "Shrimp" },
-        { "name": "Tilapia" },
-        { "name": "Tuna" }
-        ]
-   }
- ]
+    { "name": "Asparagus", "category": "Fresh vegetables" },
+    { "name": "Broccoli", "category": "Fresh vegetables" },
+    { "name": "Carrots", "category": "Fresh vegetables" },
+    { "name": "Cauliflower", "category": "Fresh vegetables" },
+    { "name": "Celery", "category": "Fresh vegetables" },
+    { "name": "Corn", "category": "Fresh vegetables" },
+    { "name": "Cucumbers", "category": "Fresh vegetables" },
+    { "name": "Lettuce", "category": "Fresh vegetables" },
+    { "name": "Mushrooms", "category": "Fresh vegetables" },
+    { "name": "Onions", "category": "Fresh vegetables" },
+    { "name": "Peppers", "category": "Fresh vegetables" },
+    { "name": "Potatoes", "category": "Fresh vegetables" },
+    { "name": "Spinach", "category": "Fresh vegetables" },
+    { "name": "Squash", "category": "Fresh vegetables" },
+    { "name": "Zucchini", "category": "Fresh vegetables" },
+    { "name": "Tomatoes", "category": "Fresh vegetables" },
+    { "name": "Butter", "category" : "Dairy" },
+    { "name": "Margarine", "category" : "Dairy" },
+    { "name": "Cottage cheese", "category" : "Dairy" },
+    { "name": "Half & half", "category" : "Dairy" },
+    { "name": "Milk", "category" : "Dairy" },
+    { "name": "Sour cream", "category" : "Dairy" },
+    { "name": "Whipped cream", "category" : "Dairy" },
+    { "name": "Yogurt", "category" : "Dairy" },
+    { "name": "Creamer", "category" : "Dairy" },
+    { "name": "Catfish", "category": "Seafood" },
+    { "name": "Crab", "category": "Seafood" },
+    { "name": "Lobster", "category": "Seafood" },
+    { "name": "Mussels", "category": "Seafood" },
+    { "name": "Oysters", "category": "Seafood" },
+    { "name": "Salmon", "category": "Seafood" },
+    { "name": "Shrimp", "category": "Seafood" },
+    { "name": "Tilapia", "category": "Seafood" },
+    { "name": "Tuna", "category": "Seafood" }
+  ]
 }
