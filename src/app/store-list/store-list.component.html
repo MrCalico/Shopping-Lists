@@ -1,0 +1,18 @@
+<md-list dense>
+  <md-list-item *ngFor="let item of listItems | async; let i = index">
+    <md-checkbox checked="true"></md-checkbox>
+    {{ item.listSeq }}  {{ item.name }}  -  Note: {{ item.note }}
+  </md-list-item>
+  <md-list-item *ngIf="addMode">
+      <md-checkbox mdInput checked="0" disabled></md-checkbox>
+          {{ i + 1}}
+      <input mdInput type="text" placeholder="Item Name">
+      <input mdInput type="text" placeholder="Note...">
+        <span class=rightAlignNext></span>
+        <a md-mini-fab (click)="cancelItem()"><md-icon>cancel</md-icon></a>
+  </md-list-item>
+  <md-list-item>
+      <span class=rightAlignNext></span>
+      <a md-mini-fab (click)="addItem()"><md-icon>add</md-icon></a> 
+  </md-list-item>
+</md-list>

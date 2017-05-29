@@ -1,0 +1,60 @@
+{
+"stores" : [
+   { "name" : "Ralphs" , "items": [
+        { "listSeq": 1, "name": "Milk", "note": "Please no omegas", "checked": false, "dateChecked": null },
+        { "listSeq": 2, "name": "Lettuce", "note": "", "checked": false, "dateChecked": null },
+        { "listSeq": 3, "name": "Corn", "note": "", "checked": false, "dateChecked": null }
+    ]
+   },
+   { "name" : "Coscto" },
+   { "name": "Target" },
+   { "name": "Home Depot" },
+   { "name": "99 Cent Store"},
+   { "name": "Walmart" }
+  ],
+"items": [ 
+    { "category": "Fresh vegetables", "items": [
+            { "name": "Asparagus" },
+            { "name": "Broccoli" },
+            { "name": "Carrots" },
+            { "name": "Cauliflower" },
+            { "name": "Celery" },
+            { "name": "Corn" },
+            { "name": "Cucumbers" },
+            { "name": "Lettuce" },
+            { "name": "Mushrooms" },
+            { "name": "Onions" },
+            { "name": "Peppers" },
+            { "name": "Potatoes" },
+            { "name": "Spinach" },
+            { "name": "Squash" },
+            { "name": "Zucchini" },
+            { "name": "Tomatoes" }
+            ]
+    },
+    { "category" : "Dairy" , "items": [
+            { "name": "Butter" },
+            { "name": "Margarine" },
+            { "name": "Cottage cheese" },
+            { "name": "Half & half" },
+            { "name": "Milk" },
+            { "name": "Sour cream" },
+            { "name": "Whipped cream" },
+            { "name": "Yogurt" },
+            { "name": "Creamer" }
+            ]
+    },
+    {"category": "Seafood", "items": [
+        { "name": "Catfish" },
+        { "name": "Crab" },
+        { "name": "Lobster" },
+        { "name": "Mussels" },
+        { "name": "Oysters" },
+        { "name": "Salmon" },
+        { "name": "Shrimp" },
+        { "name": "Tilapia" },
+        { "name": "Tuna" }
+        ]
+   }
+ ]
+}

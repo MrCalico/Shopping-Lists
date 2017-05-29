@@ -1,0 +1,10 @@
+md-grid-list {
+    background-color: blueviolet;
+}
+
+md-grid-tile {
+    column-span: 3;
+    orphans: 2;
+    border-style: none;
+
+}
