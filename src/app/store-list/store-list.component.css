@@ -13,6 +13,9 @@ md-list-item {
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+
+md-option {
 
 }
 
@@ -43,4 +46,19 @@ md-checkbox {
 
 table {
     width: 100%;
+}
+
+#listSeq {
+    width: 15%;
+    min-width: 20px;
+    max-width: 25px;
+}
+
+#newItemName {
+    width: 25%;
+    min-width: 70px;
+}
+
+#newItemNote {
+    width: 100%
 }

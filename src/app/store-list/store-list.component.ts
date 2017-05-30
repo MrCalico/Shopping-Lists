@@ -17,11 +17,16 @@ interface Item  {
 export class StoreListComponent implements OnInit {
 
  listItems: FirebaseListObservable<any[]>;
+
  items: FirebaseListObservable<any[]>;
 
  addMode: boolean = false;
+
  newItem = { 'listSeq' : 0, 'name' : '', 'note': '', 'checked': false };
+
  newItemName: FormControl;
+ newItemNote: FormControl;
+ newItemSeq: FormControl;
 
  filteredItems: any;
  itemNames: string[] = [];
@@ -32,6 +37,9 @@ export class StoreListComponent implements OnInit {
       this.items.subscribe(items => items.forEach(item => this.itemNames.push(item.name)));
 
       this.newItemName = new FormControl();
+      this.newItemSeq = new FormControl();
+      this.newItemNote = new FormControl();
+
       this.filteredItems = this.newItemName.valueChanges
         .startWith(null)
         .map(i => this.filterItems(i));
@@ -48,12 +56,18 @@ export class StoreListComponent implements OnInit {
 
   addItem() {
     console.log('add item clicked.');
-    this.newItem.listSeq = 4;
+    this.newItemSeq.setValue(4);
     this.addMode = true;
   }
 
   cancelItem() {
     this.addMode = false;
+  }
+
+  saveNewItem() {
+    console.log(this.newItemSeq.value);
+    console.log(this.newItemName.value);
+    console.log(this.newItemNote.value);
   }
 
 }

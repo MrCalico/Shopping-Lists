@@ -5,17 +5,18 @@
   </md-list-item>
   <md-list-item *ngIf="addMode">
       <md-checkbox mdInput checked="0" disabled></md-checkbox>
-      <input mdInput type="number" placeholder="##" name="listSeq" [(ngModel)]="newItem.listSeq">
-      <input mdInput type="text" placeholder="Item Name" name="newItemName"
-          [mdAutocomplete]="auto" [formControl]="newItemName">
+      <input flex mdInput type="number" placeholder="##" name="newItemSeq" 
+          [formControl]="newItemSeq" id="newItemSeq">
+      <input flex mdInput type="text" placeholder="Item Name" name="newItemName"
+          [mdAutocomplete]="auto" [formControl]="newItemName" id="newItemName">
       <md-autocomplete #auto="mdAutocomplete">
-        <md-option *ngFor="let item of filteredItems | async" [value]="itemName">
+        <md-option *ngFor="let item of filteredItems | async" [value]="item">
             {{ item }}
         </md-option>
       </md-autocomplete>
-      <input mdInput type="text" placeholder="Note...">
-      <span class=rightAlignNext></span>
-      <a md-mini-fab (click)="cancelItem()"><md-icon>checked</md-icon></a>
+      <input mdInput type="text" placeholder="Note..." name="nwItemNote" id="newItemNote" [formControl]="newItemNote">
+      <span> </span>
+      <a md-mini-fab (click)="saveNewItem()"><md-icon>checked</md-icon></a>
       <a md-mini-fab (click)="cancelItem()"><md-icon>cancel</md-icon></a>
   </md-list-item>
   <md-list-item>
