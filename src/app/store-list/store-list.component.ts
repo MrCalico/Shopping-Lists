@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/database';
+import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from 'angularfire2/database';
 
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -18,33 +18,29 @@ export class StoreListComponent implements OnInit {
 
  listItems: FirebaseListObservable<any[]>;
  items: FirebaseListObservable<any[]>;
- itemsArray: any;
 
  addMode: boolean = false;
  newItem = { 'listSeq' : 0, 'name' : '', 'note': '', 'checked': false };
  newItemName: FormControl;
 
  filteredItems: any;
+ itemNames: string[] = [];
 
   constructor(db: AngularFireDatabase) {
       this.listItems = db.list('/stores/0/items');
       this.items = db.list('/items');
+      this.items.subscribe(items => items.forEach(item => this.itemNames.push(item.name)));
 
       this.newItemName = new FormControl();
-
       this.filteredItems = this.newItemName.valueChanges
-      //  .startWith(null)
-        .map(I => this.filterItems(I));
-      /*
-      this.newItemName.valueChanges.subscribe(
-        c => { 
-          console.log(c);
-        },
-        e => console.log(e.message),
-        () => console.log('complete')
-      );*/
-      console.log(this.filteredItems);
+        .startWith(null)
+        .map(i => this.filterItems(i));
     }
+
+  filterItems(val: string) {
+      return val ? this.itemNames.filter(item => new RegExp(`^${val}`, 'gi').test(item))
+               : this.itemNames;
+  }
 
   ngOnInit() {
     console.log('ngOnInit(StoreListComponent)');
@@ -52,22 +48,12 @@ export class StoreListComponent implements OnInit {
 
   addItem() {
     console.log('add item clicked.');
-    //this.items.subscribe(i => this.itemsArray.push(i) );
-    //console.log(this.itemsArray);
     this.newItem.listSeq = 4;
     this.addMode = true;
   }
 
   cancelItem() {
     this.addMode = false;
-  }
-
-    filterItems(val: string) {
-    return (this.items);
-    /*
-    return val ? this.items.filter(i => new RegExp(`^${val}`, 'gi').test(i))
-               : this.items;
-    */
   }
 
 }
