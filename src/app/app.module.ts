@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { ListComponent } from './list/list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StoreListComponent } from './store-list/store-list.component';
+import { StoreItemsService } from './services/store-items.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { StoreListComponent } from './store-list/store-list.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
   ],
-  providers: [],
+  providers: [StoreItemsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

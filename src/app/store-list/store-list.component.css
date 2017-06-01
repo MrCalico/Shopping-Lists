@@ -44,6 +44,18 @@ md-checkbox {
     width: 100%;
 }
 
+.Item-Option {
+    height: 30px;
+    font-size: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left:5%;
+    padding-right:0;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
 table {
     width: 100%;
 }
@@ -61,4 +73,8 @@ table {
 
 #newItemNote {
     width: 100%
+}
+
+#newItemSubmit {
+    padding: 10px 10px 10px 10px;
 }

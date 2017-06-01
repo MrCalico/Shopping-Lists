@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from 'angularfire2/database';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IStoreItem, IStoreList } from './../services/store-list.model';
+import { StoreItemsService } from './../services/store-items.service';
+
 
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/count';
 
 interface Item  {
    name: string;
@@ -16,47 +19,49 @@ interface Item  {
 })
 export class StoreListComponent implements OnInit {
 
- listItems: FirebaseListObservable<any[]>;
-
- items: FirebaseListObservable<any[]>;
-
  addMode: boolean = false;
 
- newItem = { 'listSeq' : 0, 'name' : '', 'note': '', 'checked': false };
+ public newItemForm: FormGroup;
+ public newItemName: FormControl;
+ public newItemNote: FormControl;
+ public newItemSeq: FormControl;
 
- newItemName: FormControl;
- newItemNote: FormControl;
- newItemSeq: FormControl;
+ private currentStore = 0;
 
  filteredItems: any;
- itemNames: string[] = [];
+ itemNames = [];  // Arrary for Autocomplete filtering
+ listItems: any;
 
-  constructor(db: AngularFireDatabase) {
-      this.listItems = db.list('/stores/0/items');
-      this.items = db.list('/items');
-      this.items.subscribe(items => items.forEach(item => this.itemNames.push(item.name)));
+ constructor(private _fb: FormBuilder, private sis: StoreItemsService ) { }
 
-      this.newItemName = new FormControl();
-      this.newItemSeq = new FormControl();
-      this.newItemNote = new FormControl();
-
-      this.filteredItems = this.newItemName.valueChanges
-        .startWith(null)
-        .map(i => this.filterItems(i));
-    }
-
-  filterItems(val: string) {
+ filterItems(val: string) {
       return val ? this.itemNames.filter(item => new RegExp(`^${val}`, 'gi').test(item))
                : this.itemNames;
-  }
+ }
 
   ngOnInit() {
-    console.log('ngOnInit(StoreListComponent)');
+    this.listItems = this.sis.getStoreItems(this.currentStore);
+    this.itemNames = this.sis.getItemsArray();
+    this.currentStore = 0;  // TODO: get store parameter from snapshot.
+
+      let newItemName= new FormControl('', Validators.required);
+      let newItemSeq=  new FormControl('', Validators.required);
+      let newItemNote= new FormControl('');
+
+      this.newItemForm = new FormGroup({
+        newItemName: newItemName,
+        newItemSeq:  newItemSeq,
+        newItemNote: newItemNote
+      });
+
+      this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
+        .startWith(null)
+        .map(i => this.filterItems(i));
   }
 
   addItem() {
     console.log('add item clicked.');
-    this.newItemSeq.setValue(4);
+    this.newItemForm.controls.newItemSeq.setValue(this.sis.getNextSeq(this.currentStore));
     this.addMode = true;
   }
 
@@ -64,10 +69,13 @@ export class StoreListComponent implements OnInit {
     this.addMode = false;
   }
 
-  saveNewItem() {
-    console.log(this.newItemSeq.value);
-    console.log(this.newItemName.value);
-    console.log(this.newItemNote.value);
+  saveNewItem(formValues) {
+    if (this.newItemForm.valid) {
+      console.log('saving formValue');
+      this.sis.addItem(formValues);
+    } else {
+      alert('Input Invalid');
+    }
   }
 
 }
