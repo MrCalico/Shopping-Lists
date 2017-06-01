@@ -15,24 +15,6 @@ md-list-item {
     justify-content: space-around;
 }
 
-md-option {
-
-}
-
-.example-container {
-  width: 500px;
-}
-
-.example-h2 {
-  margin: 10px;
-}
-
-.example-section {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  height: 60px;
-}
 
 md-checkbox {
   margin: 0 10px 0 10px;
@@ -56,11 +38,11 @@ md-checkbox {
     vertical-align: middle;
 }
 
-table {
-    width: 100%;
+.Item-Checked {
+    text-decoration: line-through;
 }
 
-#listSeq {
+#newItemSeq {
     width: 15%;
     min-width: 20px;
     max-width: 25px;

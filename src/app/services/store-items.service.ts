@@ -42,8 +42,23 @@ export class StoreItemsService {
     return(count + 1);
   }
 
-  addItem(formValues) {
-    console.log(formValues);
+  addItem(listSeq: number, itemName: string, itemNote: string) {
+    const newItem = {
+      'listSeq': listSeq,
+      'name': itemName,
+      'note': itemNote
+    };
+    this.listItems.push(newItem);
   }
 
+  check(key) {
+    let checked: boolean = false;
+    console.log(key);
+    this.db.object('/stores/0/items/' + key)
+      .subscribe( i => i.checked ? checked = false : checked = true );
+    console.log(checked);
+    this.db.list('/stores/0/items/')
+           .update( key, { 'checked': checked } );
+  }
 }
+

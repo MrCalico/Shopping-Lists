@@ -44,14 +44,14 @@ export class StoreListComponent implements OnInit {
     this.itemNames = this.sis.getItemsArray();
     this.currentStore = 0;  // TODO: get store parameter from snapshot.
 
-      let newItemName= new FormControl('', Validators.required);
-      let newItemSeq=  new FormControl('', Validators.required);
-      let newItemNote= new FormControl('');
+      this.newItemName = new FormControl('', Validators.required);
+      this.newItemSeq =  new FormControl('', Validators.required);
+      this.newItemNote = new FormControl('');
 
       this.newItemForm = new FormGroup({
-        newItemName: newItemName,
-        newItemSeq:  newItemSeq,
-        newItemNote: newItemNote
+        newItemName: this.newItemName,
+        newItemSeq:  this.newItemSeq,
+        newItemNote: this.newItemNote
       });
 
       this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
@@ -59,9 +59,15 @@ export class StoreListComponent implements OnInit {
         .map(i => this.filterItems(i));
   }
 
+  itemCheck(key) {
+    this.sis.check(key);
+  }
+
   addItem() {
     console.log('add item clicked.');
-    this.newItemForm.controls.newItemSeq.setValue(this.sis.getNextSeq(this.currentStore));
+    this.newItemSeq.setValue(this.sis.getNextSeq(this.currentStore));
+    this.newItemName.setValue(null);
+    this.newItemNote.setValue(null);
     this.addMode = true;
   }
 
@@ -69,10 +75,11 @@ export class StoreListComponent implements OnInit {
     this.addMode = false;
   }
 
-  saveNewItem(formValues) {
+  saveNewItem(fV) {
     if (this.newItemForm.valid) {
       console.log('saving formValue');
-      this.sis.addItem(formValues);
+      this.sis.addItem(fV.newItemSeq, fV.newItemName, fV.newItemNote);
+      this.addMode = false;
     } else {
       alert('Input Invalid');
     }

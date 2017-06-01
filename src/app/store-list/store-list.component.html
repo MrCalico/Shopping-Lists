@@ -1,7 +1,9 @@
 <md-list dense #i>
   <md-list-item *ngFor="let item of listItems | async; let i = index">
-    <md-checkbox checked="true"></md-checkbox>
-    {{ item.listSeq }}  {{ item.name }}  -  Note: {{ item.note }}
+    <md-checkbox [checked]="item.checked" (click)="itemCheck(item.$key)"></md-checkbox>
+    <span [ngClass]=" {'Item-Checked' : item.checked }">
+    {{ item.checked }} {{ item.listSeq }}  {{ item.name }}  Note: {{ item.note }}
+    </span>
   </md-list-item>
   <form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
   <md-list-item *ngIf="addMode">
@@ -16,7 +18,8 @@
         </md-option>
       </md-autocomplete>
       <input mdInput type="text" placeholder="Note..." formControlName="newItemNote" id="newItemNote">
-      <button type="submit" md-mini-fab id="submit"><md-icon>checked</md-icon></button>
+      <button *ngIf="newItemForm.valid" 
+            type="submit" md-mini-fab id="submit"><md-icon>checked</md-icon></button>
       <a md-mini-fab (click)="cancelItem()"><md-icon>cancel</md-icon></a>
   </md-list-item>
   <md-list-item>
