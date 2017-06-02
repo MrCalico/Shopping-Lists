@@ -1,0 +1,38 @@
+.Item-Checked {
+    text-decoration: line-through;
+    color: black;
+}
+
+input {
+    color: darkgreen;
+    font-weight: bold;
+}
+
+md-grid-list {
+    background-color: violet;
+    margin-bottom: 1px;
+    padding-bottom: 1px;
+}
+
+md-grid-tile {
+    border-width: 1px;
+    border-bottom: 1px;
+    border-top: 1px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: white;
+}
+
+.ColData {
+    display: flex;
+    width: 100%;
+    align-content: left;
+    background: transparent;
+    border: none;
+    border-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left:0;
+    margin-right:0;
+}

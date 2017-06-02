@@ -26,21 +26,6 @@ md-checkbox {
     width: 100%;
 }
 
-.Item-Option {
-    height: 30px;
-    font-size: 100%;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left:5%;
-    padding-right:0;
-    margin-top: 0;
-    margin-bottom: 0;
-    vertical-align: middle;
-}
-
-.Item-Checked {
-    text-decoration: line-through;
-}
 
 #newItemSeq {
     width: 15%;
@@ -59,4 +44,16 @@ md-checkbox {
 
 #newItemSubmit {
     padding: 10px 10px 10px 10px;
+}
+
+.Item-Option {
+    height: 30px;
+    font-size: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left:5%;
+    padding-right:0;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
 }

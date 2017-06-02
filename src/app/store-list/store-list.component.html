@@ -1,10 +1,22 @@
-<md-list dense #i>
-  <md-list-item *ngFor="let item of listItems | async; let i = index">
-    <md-checkbox [checked]="item.checked" (click)="itemCheck(item.$key)"></md-checkbox>
-    <span [ngClass]=" {'Item-Checked' : item.checked }">
-    {{ item.checked }} {{ item.listSeq }}  {{ item.name }}  Note: {{ item.note }}
-    </span>
-  </md-list-item>
+<md-tab-group>
+  <md-tab label="Sequence">
+    <div *ngFor="let item of listItems | async; let i = index">
+      <app-store-item [item]="item"></app-store-item>
+    </div>
+  </md-tab>
+  <md-tab label="Newest First">
+    <div *ngFor="let item of listItems | async; let i = index">
+      <app-store-item [item]="item"></app-store-item>
+    </div>
+  </md-tab>
+  <md-tab label="Hide Checked">
+    <div *ngFor="let item of listItems | async; let i = index">
+      <app-store-item *ngIf="!item.checked" [item]="item"></app-store-item>
+    </div>
+  </md-tab>
+</md-tab-group>
+
+<md-list dense>
   <form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
   <md-list-item *ngIf="addMode">
       <md-checkbox mdInput checked="0" disabled></md-checkbox>
@@ -28,3 +40,4 @@
   </md-list-item>
   </form>
 </md-list>
+

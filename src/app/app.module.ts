@@ -21,6 +21,7 @@ import { ListComponent } from './list/list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StoreListComponent } from './store-list/store-list.component';
 import { StoreItemsService } from './services/store-items.service';
+import { StoreItemComponent } from './store-item/store-item.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { StoreItemsService } from './services/store-items.service';
     LoginComponent,
     ListComponent,
     NavbarComponent,
-    StoreListComponent
+    StoreListComponent,
+    StoreItemComponent
   ],
   imports: [
     BrowserModule,

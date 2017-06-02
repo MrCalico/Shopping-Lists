@@ -8,5 +8,5 @@ export interface IStoreItem {
         name: string;
         note: string;
         checked: boolean;
-        dateChecked: Date;
+        dateTouched: Date;
 }

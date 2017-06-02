@@ -8,6 +8,10 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/count';
 
+interface IFbKey {
+  key: string;
+}
+
 @Injectable()
 export class StoreItemsService {
 
@@ -35,6 +39,12 @@ export class StoreItemsService {
 
   }
 
+  getStoreItemByKey(store, key) {
+  }
+
+  getStoreItemByName(store, name) {
+  }
+
   getNextSeq(store) {
      let count = 0;
      this.getStoreItems(store)
@@ -42,13 +52,16 @@ export class StoreItemsService {
     return(count + 1);
   }
 
-  addItem(listSeq: number, itemName: string, itemNote: string) {
+  addItem(listSeq: number, itemName: string, itemNote: string, dateTouched = new Date) {
     const newItem = {
       'listSeq': listSeq,
       'name': itemName,
-      'note': itemNote
+      'note': itemNote,
+      'dateTouched': dateTouched
     };
-    this.listItems.push(newItem);
+    console.log(newItem);
+    let key = this.listItems.push(newItem);
+    this.listItems.update( key, { 'dateTouched': dateTouched } );
   }
 
   check(key) {
@@ -58,7 +71,11 @@ export class StoreItemsService {
       .subscribe( i => i.checked ? checked = false : checked = true );
     console.log(checked);
     this.db.list('/stores/0/items/')
-           .update( key, { 'checked': checked } );
+           .update( key, { 'checked': checked, 'dateTouched': new Date } );
+  }
+
+  deleteItem(key) {
+    console.log('Delete: ' + key);
   }
 }
 

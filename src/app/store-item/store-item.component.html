@@ -1,0 +1,25 @@
+  <md-grid-list cols="12" rowHeight="30px">
+    
+    <md-grid-tile [colspan]="1">
+      <md-checkbox [checked]="item.checked" (click)="itemCheck(item.$key)"></md-checkbox>
+    </md-grid-tile>
+    
+    <md-grid-tile [colspan]="1">
+        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" [value]="item.listSeq">
+    </md-grid-tile>
+    
+    <md-grid-tile [colspan]="3">
+        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" [value]="item.name">
+    </md-grid-tile>
+    
+    <md-grid-tile [colspan]="6">
+        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" [value]="item.note ? item.note : ''">
+    </md-grid-tile>
+
+    <md-grid-tile [colspan]="1">
+      <a md-mini-fab (click)="deleteItem(item.$key)"><md-icon>delete</md-icon></a>
+    </md-grid-tile>
+ 
+   </md-grid-list>
+
+
