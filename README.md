@@ -1,5 +1,11 @@
 # Shoplist
 
+This is a single page web application will track your shopping lists for multiple stores.  It is built around RxJs Obsereable and a real time database which allows it's users to update and view changes in real time.  
+
+It's is developed using Angular 4, AngularFire (for Google Firebase), and Angular Material Design.
+
+##
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.3.
 
 ## Development server
