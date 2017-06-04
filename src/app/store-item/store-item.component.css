@@ -1,15 +1,15 @@
 .Item-Checked {
     text-decoration: line-through;
-    color: black;
+    color:grey; 
 }
 
 input {
-    color: darkgreen;
+    /* color: #E0E0E0; */
     font-weight: bold;
 }
 
 md-grid-list {
-    background-color: violet;
+    /*background-color: RGB(103,115,135);*/
     margin-bottom: 1px;
     padding-bottom: 1px;
 }
@@ -29,7 +29,7 @@ md-grid-tile {
     width: 100%;
     align-content: left;
     background: transparent;
-    border: none;
+    border: transparent;
     border-width: 0;
     padding-left: 0;
     padding-right: 0;

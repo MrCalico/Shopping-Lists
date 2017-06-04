@@ -1,17 +1,26 @@
 <md-tab-group>
   <md-tab label="Sequence">
+    <ng-template md-tab-label>
+      <a (click)="toggleOrder()">{{labelOrder}}</a>
+    </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked === 'Checked'" [item]="item"></app-store-item>
     </div>
   </md-tab>
-  <md-tab label="Newest First">
+  <md-tab [label]="labelDate">
+    <ng-template md-tab-label>
+      <a (click)="toggleDate()">{{labelDate}}</a>
+    </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
     </div>
   </md-tab>
-  <md-tab label="Hide Checked">
+  <md-tab [label]="labelChecked">
+    <ng-template md-tab-label>
+      <a (click)="toggleCheck()">{{labelChecked}}</a>
+    </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked" [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
     </div>
   </md-tab>
 </md-tab-group>

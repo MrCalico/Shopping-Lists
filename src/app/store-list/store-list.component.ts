@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IStoreItem, IStoreList } from './../services/store-list.model';
 import { StoreItemsService } from './../services/store-items.service';
@@ -8,18 +8,22 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/count';
 
-interface Item  {
-   name: string;
- }
-
 @Component({
   selector: 'app-store-list',
   templateUrl: './store-list.component.html',
   styleUrls: ['./store-list.component.css']
 })
-export class StoreListComponent implements OnInit {
+export class StoreListComponent implements OnInit, OnChanges {
 
  addMode: boolean = false;
+ sortType: string = 'sequence';
+ lastSortType: number = 0;
+
+ labelDate: string = 'Date';
+ labelChecked: string = 'Checked';
+ labelOrder: string = "Ascending";
+
+ @Input() selectedIndex; // From Tabs
 
  public newItemForm: FormGroup;
  public newItemName: FormControl;
@@ -40,23 +44,29 @@ export class StoreListComponent implements OnInit {
  }
 
   ngOnInit() {
-    this.listItems = this.sis.getStoreItems(this.currentStore);
+
     this.itemNames = this.sis.getItemsArray();
     this.currentStore = 0;  // TODO: get store parameter from snapshot.
 
-      this.newItemName = new FormControl('', Validators.required);
-      this.newItemSeq =  new FormControl('', Validators.required);
-      this.newItemNote = new FormControl('');
+    this.newItemName = new FormControl('', Validators.required);
+    this.newItemSeq =  new FormControl('', Validators.required);
+    this.newItemNote = new FormControl('');
 
-      this.newItemForm = new FormGroup({
-        newItemName: this.newItemName,
-        newItemSeq:  this.newItemSeq,
-        newItemNote: this.newItemNote
-      });
+    this.newItemForm = new FormGroup({
+       newItemName: this.newItemName,
+       newItemSeq:  this.newItemSeq,
+       newItemNote: this.newItemNote
+    });
 
-      this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
-        .startWith(null)
-        .map(i => this.filterItems(i));
+    this.listItems = this.sis.getStoreItems(this.currentStore, false);
+
+    this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
+      .startWith(null)
+      .map(i => this.filterItems(i));
+  }
+
+  ngOnChanges() {
+    console.log("ngOnChanges()");
   }
 
   itemCheck(key) {
@@ -83,6 +93,39 @@ export class StoreListComponent implements OnInit {
     } else {
       alert('Input Invalid');
     }
+  }
+
+  sortBy(sortType, reverse) {
+
+    if ( sortType === 0) {
+      this.listItems = this.sis.getStoreItems(this.currentStore, reverse);
+    }
+    if ( sortType === 1 ) {
+      this.listItems = this.sis.getStoreItemsByDate(this.currentStore, reverse);
+    }
+    this.lastSortType = sortType; 
+    console.log(this.selectedIndex);
+   }
+
+    toggleCheck() {
+      console.log('Toggle Check');
+        this.labelChecked =
+          this.labelChecked === 'Checked' ? 'Unchecked' : 'Checked';
+        this.sortBy(this.lastSortType, this.labelDate === 'Newer' ? true : false );
+    }
+
+    toggleDate() {
+      console.log('Toggle Date')
+      this.labelDate =
+        this.labelDate === 'Newer' ? 'Older' : 'Newer';
+      this.sortBy(1, this.labelDate === 'Newer' ? true : false );
+    }
+
+    toggleOrder() {
+      console.log('Toggle Order');
+      this.labelOrder =
+        this.labelOrder === 'Ascending' ? 'Descending' : 'Ascending';
+      this.sortBy(0, this.labelOrder === 'Ascending' ? false : true);
   }
 
 }

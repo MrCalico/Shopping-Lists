@@ -33,9 +33,13 @@ export class StoreItemsService {
      return(itemNames);
   }
 
-  getStoreItems(store) {
+  getStoreItems(store, reverse) {
     this.listItems = this.db.list('/stores/0/items');
-    return(this.listItems);
+    if (reverse) { 
+      return(this.listItems.map(i=>{ return i.reverse() }));
+    } else {
+      return(this.listItems)
+    }
 
   }
 
@@ -47,7 +51,7 @@ export class StoreItemsService {
 
   getNextSeq(store) {
      let count = 0;
-     this.getStoreItems(store)
+     this.getStoreItems(store, false)
         .subscribe(i => i.forEach(c => ++count ));
     return(count + 1);
   }
@@ -76,6 +80,19 @@ export class StoreItemsService {
 
   deleteItem(key) {
     console.log('Delete: ' + key);
+  }
+
+  getStoreItemsByDate(store, reverse) {
+    const queryObservable = this.db.list('/stores/0/items', {
+      query: {
+        orderByChild: 'dateTouched'
+      }
+    });
+    if (reverse) {
+      return( queryObservable.map( (arr) => { return arr.reverse() })  );
+    } else {
+      return( queryObservable );
+    }
   }
 }
 
