@@ -1,32 +1,9 @@
-<md-grid-list cols="12" rowheight="40px">
-  <md-grid-tile colspan="12" rowspan="3">
+<md-grid-list cols="12">
+  <md-grid-tile colspan="12" rowspan="2">
       <img src="../../assets/shopping-icon.png" height="100px">
   </md-grid-tile>
-  <md-grid-tile colspan="6" rowspan="1">
-      <img src="../../assets/fb_login.png" alt="Login With FaceBook" width="100%">
-  </md-grid-tile>
-
-  <md-grid-tile colspan="6" rowspan="1">
-      <img alt="Login With Phone">
-  </md-grid-tile>
-
-  <md-grid-tile colspan="6" rowspan="1">
-      <img src="../../assets/google_login.png" alt="Login with Google" width="85%">
-  </md-grid-tile>
-
-  <md-grid-tile colspan="6" rowspan="1">
-      <img alt="Login with Email/Password">
-  </md-grid-tile>
-
-  <md-grid-tile colspan="12" rowspan="1">
-      <img alt="Login Anonymous*">
-  </md-grid-tile>
-
 </md-grid-list>
-  
-<button (click)="login()">
-  Login
-</button>
-<button (click)="logoff()">
-  Logoff
+<firebase-ui></firebase-ui>
+<button (click)="logout()">
+  Logout
 </button>

@@ -1,16 +1,23 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, Renderer2, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Shopping Lists App';
   @Output() showNavBar = true;
   @Input() activate: EventListener;
+  @Input() viewNavBar: EventListener;
 
-  constructor() { }
+  constructor(private ren: Renderer2) { }
+
+  ngOnInit() {
+    this.ren.listen('document', 'viewNavBar', (evt) => {
+      console.log('navBarEvent!', evt);
+    });
+  }
 
   onActivate(e) {
     console.log('onActivate');
@@ -25,4 +32,9 @@ export class AppComponent {
       this.showNavBar = true;
     }
   }
+
+  onViewNavBar($event) {
+    console.log('onViewNavBar Event!');
+  }
+  
 }

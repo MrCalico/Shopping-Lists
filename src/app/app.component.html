@@ -1,2 +1,2 @@
-<app-navbar *ngIf="showNavBar"></app-navbar>
-<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
+<app-navbar *ngIf="showNavBar" (viewNavBar)="onViewNavBar($event)"></app-navbar>
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)" (viewNavBar)="onViewNavBar($event)"></router-outlet>

@@ -25,6 +25,23 @@ import { StoreItemComponent } from './store-item/store-item.component';
 import { StoreItemsService } from './services/store-items.service';
 import { EventEmitterService } from './services/event-emitter.service';
 
+// FirebaseUI 
+import {AuthMethods, AuthProviders, FirebaseUIAuthConfig,
+        FirebaseUIModule} from 'firebaseui-angular';
+
+const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
+  providers: [
+    AuthProviders.Google,
+    AuthProviders.Facebook,
+    AuthProviders.Twitter,
+    AuthProviders.Github,
+    AuthProviders.Password,
+    AuthProviders.Phone
+  ],
+  method: AuthMethods.Popup,
+  tos: '<your-tos-link>'
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +64,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     MdCheckboxModule,
     MdInputModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'LoginComponent', pathMatch: 'full' },
+      { path: '', component: LoginComponent, pathMatch: 'full' },
       { path: 'stores', component: StoresComponent },
       { path: 'stores/:id', component: StoreDetailsComponent },
       { path: 'storelist/:id', component: StoreListComponent},
@@ -56,6 +73,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [StoreItemsService, EventEmitterService],
   bootstrap: [AppComponent]
