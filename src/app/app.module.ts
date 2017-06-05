@@ -20,8 +20,10 @@ import { LoginComponent } from './login/login.component';
 import { ListComponent } from './list/list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StoreListComponent } from './store-list/store-list.component';
-import { StoreItemsService } from './services/store-items.service';
 import { StoreItemComponent } from './store-item/store-item.component';
+
+import { StoreItemsService } from './services/store-items.service';
+import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({
   declarations: [
@@ -45,16 +47,17 @@ import { StoreItemComponent } from './store-item/store-item.component';
     MdCheckboxModule,
     MdInputModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: '', pathMatch: 'full' },
+      { path: '', redirectTo: 'LoginComponent', pathMatch: 'full' },
       { path: 'stores', component: StoresComponent },
       { path: 'stores/:id', component: StoreDetailsComponent },
-      { path: 'storelist/:id', component: StoreListComponent}
+      { path: 'storelist/:id', component: StoreListComponent},
+      { path: 'login', component: LoginComponent }
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
   ],
-  providers: [StoreItemsService],
+  providers: [StoreItemsService, EventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

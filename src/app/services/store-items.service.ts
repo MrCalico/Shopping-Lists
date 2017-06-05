@@ -40,7 +40,6 @@ export class StoreItemsService {
     } else {
       return(this.listItems)
     }
-
   }
 
   getStoreItemByKey(store, key) {
@@ -80,6 +79,7 @@ export class StoreItemsService {
 
   deleteItem(key) {
     console.log('Delete: ' + key);
+    this.listItems.remove(key);
   }
 
   getStoreItemsByDate(store, reverse) {

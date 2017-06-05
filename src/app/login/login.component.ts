@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { AngularFireAuthProvider } from 'angularfire2/auth';
 
 @Component({
@@ -7,6 +7,8 @@ import { AngularFireAuthProvider } from 'angularfire2/auth';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+@Output() hideNavBar = true;
 
   constructor() { }
 

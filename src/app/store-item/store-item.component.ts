@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 import { IStoreItem } from '../services/store-list.model';
 import { StoreItemsService } from '../services/store-items.service';
 
@@ -11,20 +10,14 @@ import { StoreItemsService } from '../services/store-items.service';
 export class StoreItemComponent implements OnInit {
 
 @Input() item: IStoreItem;
+@Input() returnClick: EventListener;
 
   constructor(private sis: StoreItemsService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
-  itemCheck(key) {
+  itemCheck(key) { this.sis.check(key); }
 
-    this.sis.check(key);
-
-  }
-
-  deleteItem(key) {
-    this.sis.deleteItem(key);
-  }
+  deleteItem(key) { this.sis.deleteItem(key); }
 
 }

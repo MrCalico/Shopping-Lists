@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,22 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Shopping Lists App';
+  @Output() showNavBar = true;
+  @Input() activate: EventListener;
+
+  constructor() { }
+
+  onActivate(e) {
+    console.log('onActivate');
+    if ( e.hideNavBar ) {
+      this.showNavBar = false;
+    }
+  }
+
+  onDeactivate(e) {
+    console.log('onDeactivate');
+    if ( e.hideNavBar ) {
+      this.showNavBar = true;
+    }
+  }
 }

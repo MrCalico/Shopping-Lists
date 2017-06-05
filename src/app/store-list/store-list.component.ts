@@ -1,8 +1,9 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router'
 import { IStoreItem, IStoreList } from './../services/store-list.model';
-import { StoreItemsService } from './../services/store-items.service';
-
+import { StoreItemsService } from '../services/store-items.service';
+import { EventEmitterService } from '../services/event-emitter.service';
 
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -13,8 +14,9 @@ import 'rxjs/add/operator/count';
   templateUrl: './store-list.component.html',
   styleUrls: ['./store-list.component.css']
 })
-export class StoreListComponent implements OnInit, OnChanges {
+export class StoreListComponent implements OnInit {
 
+ @Output() hideNavBar = true;
  addMode: boolean = false;
  sortType: string = 'sequence';
  lastSortType: number = 0;
@@ -22,8 +24,6 @@ export class StoreListComponent implements OnInit, OnChanges {
  labelDate: string = 'Date';
  labelChecked: string = 'Checked';
  labelOrder: string = "Ascending";
-
- @Input() selectedIndex; // From Tabs
 
  public newItemForm: FormGroup;
  public newItemName: FormControl;
@@ -36,7 +36,8 @@ export class StoreListComponent implements OnInit, OnChanges {
  itemNames = [];  // Arrary for Autocomplete filtering
  listItems: any;
 
- constructor(private _fb: FormBuilder, private sis: StoreItemsService ) { }
+ constructor(private _fb: FormBuilder, private sis: StoreItemsService,
+             private route: Router, private ees: EventEmitterService ) { }
 
  filterItems(val: string) {
       return val ? this.itemNames.filter(item => new RegExp(`^${val}`, 'gi').test(item))
@@ -47,6 +48,8 @@ export class StoreListComponent implements OnInit, OnChanges {
 
     this.itemNames = this.sis.getItemsArray();
     this.currentStore = 0;  // TODO: get store parameter from snapshot.
+
+    this.ees.hideNavBar(true);
 
     this.newItemName = new FormControl('', Validators.required);
     this.newItemSeq =  new FormControl('', Validators.required);
@@ -63,10 +66,6 @@ export class StoreListComponent implements OnInit, OnChanges {
     this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
       .startWith(null)
       .map(i => this.filterItems(i));
-  }
-
-  ngOnChanges() {
-    console.log("ngOnChanges()");
   }
 
   itemCheck(key) {
@@ -103,8 +102,7 @@ export class StoreListComponent implements OnInit, OnChanges {
     if ( sortType === 1 ) {
       this.listItems = this.sis.getStoreItemsByDate(this.currentStore, reverse);
     }
-    this.lastSortType = sortType; 
-    console.log(this.selectedIndex);
+    this.lastSortType = sortType;
    }
 
     toggleCheck() {
@@ -128,4 +126,8 @@ export class StoreListComponent implements OnInit, OnChanges {
       this.sortBy(0, this.labelOrder === 'Ascending' ? false : true);
   }
 
+  return() {
+    console.log('return clicked');
+    this.route.navigate(['stores']);
+  }
 }

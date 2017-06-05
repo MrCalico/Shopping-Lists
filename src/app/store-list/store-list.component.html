@@ -23,7 +23,13 @@
       <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
     </div>
   </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+    <a md-mini-fab (click)="return()"><md-icon>close</md-icon></a> 
+    </ng-template>
+  </md-tab>
 </md-tab-group>
+
 
 <md-list dense>
   <form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
