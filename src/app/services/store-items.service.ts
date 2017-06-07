@@ -3,6 +3,7 @@ import { FirebaseListObservable,
          FirebaseObjectObservable,
          AngularFireDatabase } from 'angularfire2/database';
 import { IStoreList, IStoreItem } from './store-list.model';
+import { IStore } from './store.model';
 
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
@@ -94,5 +95,15 @@ export class StoreItemsService {
       return( queryObservable );
     }
   }
+
+  getStoreByName(name): FirebaseListObservable<any> {
+    return(this.db.list('/stores', {
+      query: {
+        orderByChild: 'name',
+        equalTo: name
+      }
+    }));
+  }
 }
+
 

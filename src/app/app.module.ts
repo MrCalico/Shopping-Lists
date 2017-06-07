@@ -66,9 +66,9 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     RouterModule.forRoot([
       { path: '', component: LoginComponent, pathMatch: 'full' },
       { path: 'stores', component: StoresComponent },
-      { path: 'stores/:id', component: StoreDetailsComponent },
+      { path: 'store/:id', component: StoreDetailsComponent },
       { path: 'storelist/:id', component: StoreListComponent},
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
