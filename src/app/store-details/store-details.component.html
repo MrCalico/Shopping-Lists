@@ -3,7 +3,12 @@
     <input mdInput placeholder="Store Name" 
       [(ngModel)]="store.name" id="name" name="name">
   </md-input-container>
-
+  <span style="margin-left:30%; align-content:right">
+    <img width="80" [src]="store.iconPath" alt="image goes here">
+  </span>
+   <span style="margin-left:60%; align-content:right">
+     <input type="text" [(ngModel)]="store.iconPath" name="iconPath" style="width:10">
+  </span>
   <table class="example-full-width" cellspacing="0"><tr>
     <td><md-input-container class="example-full-width">
       <input mdInput placeholder="First Name" 

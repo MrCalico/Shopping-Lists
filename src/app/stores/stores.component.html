@@ -1,5 +1,7 @@
 <md-grid-list cols="3" rowHeight="80px">
   <md-grid-tile *ngFor="let store of stores | async">
-    <button md-raised-button (click)="showStoreItems(store.name)">{{ store.name }}</button>
+    <button md-raised-button (click)="showStoreItems(store.name)">
+      <img [src]="store.iconPath" [alt]="store.name" width="75" height="50">
+    </button>
   </md-grid-tile>
 </md-grid-list>
