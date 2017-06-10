@@ -22,7 +22,7 @@ export class ItemsComponent implements OnInit {
     // this.items = this.sis.getItems().take(10);
     // this.categories = this.sis.getItemCategoriesDistinct();
     // this.db.object('/items', {preserveSnapshot: true}).map( i => i.category).subscribe(i => { console.log(i.val()) } );
-    this.categories = this.db.list('/items').reduce((category,name) => category+name);
+    // this.categories = this.db.list('/items').filter(item => category[category]);
   }
 
 }
