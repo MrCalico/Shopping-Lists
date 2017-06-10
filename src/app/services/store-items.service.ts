@@ -8,6 +8,7 @@ import { IStore } from './store.model';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/count';
+import 'rxjs/add/operator/distinct';
 
 interface IFbKey {
   key: string;
@@ -22,16 +23,51 @@ export class StoreItemsService {
   constructor(private db: AngularFireDatabase) { }
 
   getItems() {
-      this.items = this.db.list('/items');
-      return(this.items);
+      return(this.items = this.db.list('/items', {
+      query: {
+        orderByChild: 'name'
+      }
+    }));
+  }
+
+  getItemCategories() {
+    return(this.db.list('/items', {
+      query: {
+        orderByChild: 'category'
+      }
+    }));
+  }
+
+  getItemCategoriesDistinct() {
+    return(this.db.list('/items',
+      { preserveSnapshot: true, query: {orderByChild: 'category', limitToFirst: 1}} ));
+
+  }
+
+  getItemsByCategory() {
+      return(this.items = this.db.list('/items', {
+      query: {
+        orderByChild: 'category'
+      }
+    }));
   }
 
   getItemsArray(): string[] {
-     let itemNames = [];
+     let itemNames: string[] = [];
+     let i = 0;
+     console.log('i: ',i);
      this.getItems()
       .subscribe(items => items
-        .forEach(item => itemNames.push(item.name)));
+        .forEach(item => { itemNames.push(item.name) } ));
      return(itemNames);
+  }
+
+  getItemsCategoryArray(): string[] {
+    let itemCategories: string[] = [];
+    this.getItems()
+      .subscribe(items => items
+        .forEach(item => { itemCategories.push(item.category); } ));
+   return(itemCategories);
   }
 
   getStoreItems(store, reverse) {
@@ -56,11 +92,12 @@ export class StoreItemsService {
     return(count + 1);
   }
 
-  addItem(listSeq: number, itemName: string, itemNote: string, dateTouched = new Date) {
+  addItem(listSeq: number, itemName: string, itemNote: string, itemCategory: string, dateTouched = new Date) {
     const newItem = {
       'listSeq': listSeq,
       'name': itemName,
       'note': itemNote,
+      'category': itemCategory,
       'dateTouched': dateTouched
     };
     console.log(newItem);
@@ -94,6 +131,14 @@ export class StoreItemsService {
     } else {
       return( queryObservable );
     }
+  }
+
+  getStoreItemsByCategory(store) {
+    return( this.db.list('/stores/0/items', {
+      query: {
+        orderByChild: 'category'
+      }
+    }));
   }
 
   getStoreByName(name): FirebaseListObservable<any> {

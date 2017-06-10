@@ -24,6 +24,7 @@ export class StoreListComponent implements OnInit {
  labelDate: string = 'Date';
  labelChecked: string = 'Checked';
  labelOrder: string = "Ascending";
+ labelCategory: string = "Category";
 
  public newItemForm: FormGroup;
  public newItemName: FormControl;
@@ -33,20 +34,25 @@ export class StoreListComponent implements OnInit {
  private currentStore = 0;
 
  filteredItems: any;
- itemNames = [];  // Arrary for Autocomplete filtering
+ itemNames: string[];  // Arrary for Autocomplete filtering
+ itemCategories: string[];
+
  listItems: any;
 
  constructor(private _fb: FormBuilder, private sis: StoreItemsService,
              private route: Router, private ees: EventEmitterService ) { }
 
  filterItems(val: string) {
-      return val ? this.itemNames.filter(item => new RegExp(`^${val}`, 'gi').test(item))
-               : this.itemNames;
+      return val ? this.itemNames.filter(item => new RegExp(`^${val}`, 'gi').test(item)) : this.itemNames;
  }
 
   ngOnInit() {
 
     this.itemNames = this.sis.getItemsArray();
+    this.itemCategories = this.sis.getItemsCategoryArray();
+
+    console.log(this.itemNames);
+
     this.currentStore = 0;  // TODO: get store parameter from snapshot.
 
     this.ees.hideNavBar(true);
@@ -66,6 +72,7 @@ export class StoreListComponent implements OnInit {
     this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
       .startWith(null)
       .map(i => this.filterItems(i));
+
   }
 
   itemCheck(key) {
@@ -73,11 +80,13 @@ export class StoreListComponent implements OnInit {
   }
 
   addItem() {
+    this.addMode = true;
     console.log('add item clicked.');
     this.newItemSeq.setValue(this.sis.getNextSeq(this.currentStore));
     this.newItemName.setValue(null);
     this.newItemNote.setValue(null);
-    this.addMode = true;
+
+    // this.sis.addItem(this.sis.getNextSeq(this.currentStore), null, null);
   }
 
   cancelItem() {
@@ -87,7 +96,7 @@ export class StoreListComponent implements OnInit {
   saveNewItem(fV) {
     if (this.newItemForm.valid) {
       console.log('saving formValue');
-      this.sis.addItem(fV.newItemSeq, fV.newItemName, fV.newItemNote);
+      this.sis.addItem(fV.newItemSeq, fV.newItemName, fV.newItemNote, this.itemCategories[this.itemNames.indexOf(fV.newItemName)] );
       this.addMode = false;
     } else {
       alert('Input Invalid');
@@ -124,7 +133,25 @@ export class StoreListComponent implements OnInit {
       this.labelOrder =
         this.labelOrder === 'Ascending' ? 'Descending' : 'Ascending';
       this.sortBy(0, this.labelOrder === 'Ascending' ? false : true);
-  }
+    }
+
+    toggleCategory() {
+      console.log('Toggle Category');
+      if ( this.labelCategory === 'Category On' ) {
+        this.labelCategory = 'Category Off';
+        this.listItems = this.sis.getStoreItemsByCategory(this.currentStore);
+    } else {
+        this.labelCategory = 'Category On';
+        switch(this.lastSortType) {
+          case 0:
+            this.listItems = this.sis.getStoreItems(this.currentStore, this.labelOrder === 'Ascending' ? false : true );
+            break;
+          case 1:
+            this.listItems = this.sis.getStoreItemsByDate(this.currentStore, this.labelOrder === 'Ascending' ? false : true );
+            break;
+        }
+      }
+    }
 
   return() {
     console.log('return clicked');

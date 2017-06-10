@@ -1,4 +1,6 @@
-<md-tab-group>
+<form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
+
+<md-tab-group flex width="100%">
   <md-tab label="Sequence">
     <ng-template md-tab-label>
       <a (click)="toggleOrder()">{{labelOrder}}</a>
@@ -23,36 +25,59 @@
       <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
     </div>
   </md-tab>
+  <md-tab [label]="labelCategory">
+    <ng-template md-tab-label>
+      <a (click)="toggleCategory()">{{labelCategory}}</a>
+    </ng-template>
+    <div *ngFor="let item of listItems | async; let i = index">
+      <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
+    </div>
+  </md-tab>
   <md-tab>
     <ng-template md-tab-label>
-    <a md-mini-fab (click)="return()"><md-icon>close</md-icon></a> 
+    <button md-mini-fab (click)="return()"><md-icon>apps</md-icon></button> 
     </ng-template>
   </md-tab>
 </md-tab-group>
 
+<!-- INPUT FORM COLUMNS -->
+<md-grid-list cols="12" rowHeight="30px" *ngIf="addMode">
 
-<md-list dense>
-  <form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
-  <md-list-item *ngIf="addMode">
-      <md-checkbox mdInput checked="0" disabled></md-checkbox>
-      <input flex mdInput type="number" placeholder="##"  
-           formControlName="newItemSeq" id="newItemSeq">
-      <input flex mdInput type="text" placeholder="Item Name" 
-          [mdAutocomplete]="auto" formControlName="newItemName" id="newItemName" required>
-      <md-autocomplete #auto="mdAutocomplete">
-        <md-option class="Item-Option" *ngFor="let item of filteredItems | async" [value]="item">
-            {{ item }}
-        </md-option>
-      </md-autocomplete>
-      <input mdInput type="text" placeholder="Note..." formControlName="newItemNote" id="newItemNote">
-      <button *ngIf="newItemForm.valid" 
-            type="submit" md-mini-fab id="submit"><md-icon>checked</md-icon></button>
-      <a md-mini-fab (click)="cancelItem()"><md-icon>cancel</md-icon></a>
-  </md-list-item>
-  <md-list-item>
-      <span class=rightAlignNext></span>
-      <a md-mini-fab (click)="addItem()"><md-icon>add</md-icon></a> 
-  </md-list-item>
-  </form>
-</md-list>
+    <md-grid-tile colspan="1" >
+        <md-checkbox mdInput checked="0" disabled></md-checkbox>
+    </md-grid-tile>
+  
+    <md-grid-tile colspan="1">
+        <input class="ColData" type="number" placeholder="##" formControlName="newItemSeq" id="newItemSeq">
+    </md-grid-tile>
+  
+    <md-grid-tile colspan="3">
+        <input class="ColData" type="text" placeholder="Item Name" 
+            [mdAutocomplete]="auto" formControlName="newItemName" id="newItemName" required>
+        <md-autocomplete #auto="mdAutocomplete">
+          <md-option class="Item-Option" *ngFor="let item of filteredItems | async" [value]="item">
+              {{ item }}
+          </md-option>
+        </md-autocomplete>
+    </md-grid-tile>
+  
+    <md-grid-tile colspan="6">
+        <input class="ColData" type="text" placeholder="Note..." formControlName="newItemNote" id="newItemNote">
+    </md-grid-tile>
+    <md-grid-tile colspan="1">
+        <a md-mini-fab (click)="cancelItem()"><md-icon>cancel</md-icon></a>
+    </md-grid-tile>
 
+</md-grid-list>
+
+<!-- Add Button -->
+<md-grid-list cols="1" rowHeight="30px">
+  <md-grid-tile colspan="1">
+      <!-- <span class=rightAlignNext></span>-->
+      <button *ngIf="newItemForm.valid && addMode" 
+              type="Submit" md-mini-fab id="submit"><md-icon>keyboard_return</md-icon></button> 
+
+      <a *ngIf="newItemForm.valid || !addMode" md-mini-fab (click)="addItem()"><md-icon>plus_one</md-icon></a> 
+  </md-grid-tile>
+</md-grid-list>
+</form>

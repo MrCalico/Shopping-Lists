@@ -1,47 +1,82 @@
 <form #storeForm="ngForm" (ngSubmit)="submit(storeForm.value)" class="example-form">
-  <md-input-container class="example-full-width">
-    <input mdInput placeholder="Store Name" 
-      [(ngModel)]="store.name" id="name" name="name">
-  </md-input-container>
-  <span style="margin-left:30%; align-content:right">
-    <img width="80" [src]="store.iconPath" alt="image goes here">
-  </span>
-   <span style="margin-left:60%; align-content:right">
-     <input type="text" [(ngModel)]="store.iconPath" name="iconPath" style="width:10">
-  </span>
-  <table class="example-full-width" cellspacing="0"><tr>
-    <td><md-input-container class="example-full-width">
-      <input mdInput placeholder="First Name" 
+  <table cellspacing="0">
+  <tr><td>
+    <md-input-container class="example-full-width">
+      <input mdInput placeholder="Store Name" 
+        [(ngModel)]="store.name" id="name" name="name">
+    </md-input-container>
+  </td>
+  <td></td>
+  <td>
+     <img *ngIf="store.iconPath" width="80" [src]="store.iconPath" alt="image goes here">
+  </td>
+  </tr>
+  <tr>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput type="text" [(ngModel)]="store.address" name="address" placeholder="Address" >
+      </md-input-container>
+    </td>
+    <td></td>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput type="text" [(ngModel)]="store.iconPath" name="iconPath" placeholder="Icon Path">
+      </md-input-container>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput type="text" [(ngModel)]="store.address2" name="address2" placeholder="Address 2">
+      </md-input-container>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput [(ngModel)]="store.city" name="city" placeholder="City">
+      </md-input-container></td>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput [(ngModel)]="store.state" name="state" placeholder="State">
+      </md-input-container>
+    </td>
+      <td>
+       <md-input-container class="example-full-width">
+          <input mdInput #postalCode [(ngModel)]="store.postalCode" name="postalCode" maxlength="5" placeholder="Postal Code" value="94043">
+          <md-hint align="end">{{postalCode.value.length}} / 5</md-hint>
+      </md-input-container>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput placeholder="Store Contact" disabled>
+      </md-input-container>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput placeholder="First Name" 
               [(ngModel)]="store.firstName" id="firstName" name="firstName">
-    </md-input-container></td>
-    <td><md-input-container class="example-full-width">
-      <input mdInput placeholder="Last Name"
+      </md-input-container>
+    </td>
+    <td>
+      <md-input-container class="example-full-width">
+        <input mdInput placeholder="Last Name"
               [(ngModel)]="store.lastName" id="lastName" name="lastName">
-    </md-input-container></td>
-  </tr></table>
-
-  <p>
-    <md-input-container class="example-full-width">
-      <textarea mdInput placeholder="Address" 
-        [(ngModel)]="store.address" id="address" name="address"></textarea>
-    </md-input-container>
-    <md-input-container class="example-full-width">
-      <textarea mdInput [(ngModel)]="store.address2" name="address2" placeholder="Address 2"></textarea>
-    </md-input-container>
-  </p>
-
-  <table class="example-full-width" cellspacing="0"><tr>
-    <td><md-input-container class="example-full-width">
-      <input mdInput [(ngModel)]="store.city" name="city" placeholder="City">
-    </md-input-container></td>
-    <td><md-input-container class="example-full-width">
-      <input mdInput [(ngModel)]="store.state" name="state" placeholder="State">
-    </md-input-container></td>
-    <td><md-input-container class="example-full-width">
-      <input mdInput #postalCode [(ngModel)]="store.postalCode" name="postalCode" maxlength="5" placeholder="Postal Code" value="94043">
-      <md-hint align="end">{{postalCode.value.length}} / 5</md-hint>
-    </md-input-container></td>
-  </tr><tr>
-  <td><button type="cancel">Cancel</button></td><td><button type="submit">submit</button></td>
+      </md-input-container>
+   </td>
+   <td>
+      <md-input-container class="example-full-width">
+        <input mdInput placeholder="Phone"
+              [(ngModel)]="store.phone" id="phone" name="phone">
+      </md-input-container>
+   </td>
+  </tr>
+  <tr>
+      <td><button md-raised-button type="cancel">Cancel</button></td>
+      <td><button md-raised-button type="submit">submit</button></td>
   </tr></table>
 </form>

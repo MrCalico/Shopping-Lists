@@ -17,7 +17,6 @@ import { MdGridListModule, MdCheckboxModule, MdInputModule } from '@angular/mate
 import { StoresComponent } from './stores/stores.component';
 import { StoreDetailsComponent } from './store-details/store-details.component';
 import { LoginComponent } from './login/login.component';
-import { ListComponent } from './list/list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StoreListComponent } from './store-list/store-list.component';
 import { StoreItemComponent } from './store-item/store-item.component';
@@ -25,9 +24,11 @@ import { StoreItemComponent } from './store-item/store-item.component';
 import { StoreItemsService } from './services/store-items.service';
 import { EventEmitterService } from './services/event-emitter.service';
 
-// FirebaseUI 
+// FirebaseUI
 import {AuthMethods, AuthProviders, FirebaseUIAuthConfig,
         FirebaseUIModule} from 'firebaseui-angular';
+import { ItemsComponent } from './items/items.component';
+import { ItemDetailComponent } from './item-detail/item-detail.component';
 
 const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   providers: [
@@ -48,10 +49,11 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     StoresComponent,
     StoreDetailsComponent,
     LoginComponent,
-    ListComponent,
     NavbarComponent,
     StoreListComponent,
-    StoreItemComponent
+    StoreItemComponent,
+    ItemsComponent,
+    ItemDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +71,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
       { path: 'store/:id', component: StoreDetailsComponent },
       { path: 'storelist/:id', component: StoreListComponent},
       { path: 'login', component: LoginComponent },
+      { path: 'items', component: ItemsComponent },
+      { path: 'item/:id', component: ItemDetailComponent }
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

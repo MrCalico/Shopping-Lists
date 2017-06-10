@@ -1,28 +1,12 @@
-md-list-item {
-    line-height: 3%;
-    height: 3%;
-    border-style: solid;
-    border-width: 1px;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-
-md-checkbox {
-  margin: 0 10px 0 10px;
-}
-
+/*
 .rightAlignNext {
     display: flex;
     align-content: right;
     width: 100%;
 }
-
-
+*/
+/*
 #newItemSeq {
     width: 15%;
     min-width: 20px;
@@ -42,6 +26,20 @@ md-checkbox {
     padding: 10px 10px 10px 10px;
 }
 
+md-list-item {
+    line-height: 3%;
+    height: 3%;
+    border-style: solid;
+    border-width: 1px;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+*/
+/*
 .Item-Option {
     height: 30px;
     font-size: 100%;
@@ -52,4 +50,52 @@ md-checkbox {
     margin-top: 0;
     margin-bottom: 0;
     vertical-align: middle;
+}
+
+
+form {
+    display: flex;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    width: 100%;
+}
+*/
+
+.Item-Checked {
+    text-decoration: line-through;
+    color:grey; 
+}
+
+input {
+    /* color: #E0E0E0; */
+    font-weight: bold;
+}
+
+md-grid-list {
+    /*background-color: RGB(103,115,135);*/
+    margin-bottom: 1px;
+    padding-bottom: 1px;
+}
+
+md-grid-tile {
+    border-width: 1px;
+    border-bottom: 1px;
+    border-top: 1px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: white;
+}
+
+.ColData {
+    display: flex;
+    width: 100%;
+    align-content: left;
+    background: transparent;
+    border: transparent;
+    border-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left:0;
+    margin-right:0;
 }
