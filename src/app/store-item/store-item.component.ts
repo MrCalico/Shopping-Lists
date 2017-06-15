@@ -20,4 +20,21 @@ export class StoreItemComponent implements OnInit {
 
   deleteItem(key) { this.sis.deleteItem(key); }
 
+  drag(ev) {
+    console.log(ev);
+  }
+
+  touchStart(ev) {
+    console.log('start')
+
+  }
+
+  touchMove(ev) {
+    console.log('Move',ev);
+  }
+
+  touchEnd(ev) {
+    console.log('TouchEnd',ev)
+  }
+
 }

@@ -29,6 +29,11 @@ import {AuthMethods, AuthProviders, FirebaseUIAuthConfig,
         FirebaseUIModule} from 'firebaseui-angular';
 import { ItemsComponent } from './items/items.component';
 import { ItemDetailComponent } from './item-detail/item-detail.component';
+import { UniquePipe } from './unique.pipe';
+import { CategoryItemsPipe } from './category-items.pipe';
+
+import 'hammerjs';
+import { SwipeComponent } from './swipe/swipe.component';
 
 const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
   providers: [
@@ -53,7 +58,10 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
     StoreListComponent,
     StoreItemComponent,
     ItemsComponent,
-    ItemDetailComponent
+    ItemDetailComponent,
+    UniquePipe,
+    CategoryItemsPipe,
+    SwipeComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +80,8 @@ const firebaseUiAuthConfig: FirebaseUIAuthConfig = {
       { path: 'storelist/:id', component: StoreListComponent},
       { path: 'login', component: LoginComponent },
       { path: 'items', component: ItemsComponent },
-      { path: 'item/:id', component: ItemDetailComponent }
+      { path: 'item/:id', component: ItemDetailComponent },
+      { path: 'swipe', component: SwipeComponent }
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

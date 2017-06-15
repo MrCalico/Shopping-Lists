@@ -1,38 +1,38 @@
 <form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
 
-<md-tab-group flex width="100%">
-  <md-tab label="Sequence">
+<md-tab-group>
+  <md-tab [label]="labelChecked">  <!-- Checked/UnChecked -->
     <ng-template md-tab-label>
-      <a (click)="toggleOrder()">{{labelOrder}}</a>
+      <a (click)="toggleCheck()"><md-icon>{{labelChecked}}</md-icon></a>
     </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked || labelChecked === 'Checked'" [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked==='check_box'" [item]="item"></app-store-item>
+    </div>
+  </md-tab>
+  <md-tab label="Sequence">  <!-- Sort/unsort -->
+    <ng-template md-tab-label>
+      <a (click)="toggleOrder()"><md-icon>{{labelOrder}}</md-icon></a>
+    </ng-template>
+    <div *ngFor="let item of listItems | async; let i = index">
+      <app-store-item *ngIf="!item.checked || labelChecked === 'check_box'" [item]="item"></app-store-item>
     </div>
   </md-tab>
   <md-tab [label]="labelDate">
     <ng-template md-tab-label>
-      <a (click)="toggleDate()">{{labelDate}}</a>
+      <a (click)="toggleDate()"><md-icon>{{labelDate}}</md-icon></a>
     </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked==='check_box'" [item]="item"></app-store-item>
     </div>
   </md-tab>
-  <md-tab [label]="labelChecked">
-    <ng-template md-tab-label>
-      <a (click)="toggleCheck()">{{labelChecked}}</a>
-    </ng-template>
-    <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
-    </div>
-  </md-tab>
-  <md-tab [label]="labelCategory">
-    <ng-template md-tab-label>
-      <a (click)="toggleCategory()">{{labelCategory}}</a>
-    </ng-template>
-    <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked || labelChecked==='Checked'" [item]="item"></app-store-item>
-    </div>
-  </md-tab>
+  <md-tab [label]="labelCategory">  <!-- Categorize -->
+  <ng-template md-tab-label>
+    <a (click)="toggleCategory()"><md-icon>{{labelCategory}}</md-icon></a>
+  </ng-template>
+  <div *ngFor="let item of listItems | async; let i = index">
+    <app-store-item *ngIf="!item.checked || labelChecked==='check_box'" [item]="item"></app-store-item>
+  </div>
+</md-tab>
   <md-tab>
     <ng-template md-tab-label>
     <button md-mini-fab (click)="return()"><md-icon>apps</md-icon></button> 
@@ -51,20 +51,31 @@
         <input class="ColData" type="number" placeholder="##" formControlName="newItemSeq" id="newItemSeq">
     </md-grid-tile>
   
-    <md-grid-tile colspan="3">
+    <md-grid-tile colspan="3"> <!-- Item Name -->
         <input class="ColData" type="text" placeholder="Item Name" 
-            [mdAutocomplete]="auto" formControlName="newItemName" id="newItemName" required>
-        <md-autocomplete #auto="mdAutocomplete">
+            [mdAutocomplete]="autoItem" formControlName="newItemName" id="newItemName" required>
+        <md-autocomplete #autoItem="mdAutocomplete">
           <md-option class="Item-Option" *ngFor="let item of filteredItems | async" [value]="item">
               {{ item }}
           </md-option>
         </md-autocomplete>
     </md-grid-tile>
   
-    <md-grid-tile colspan="6">
+    <md-grid-tile colspan="3"> <!-- Item Note -->
         <input class="ColData" type="text" placeholder="Note..." formControlName="newItemNote" id="newItemNote">
     </md-grid-tile>
-    <md-grid-tile colspan="1">
+
+    <md-grid-tile colspan="3"> <!-- Category -->
+        <input class="ColData" type="text" placeholder="Category" 
+        [mdAutocomplete]="autoCategory" formControlName="newItemCategory" id="newItemCategory">
+        <md-autocomplete #autoCategory="mdAutocomplete">
+          <md-option class="Item-Option" *ngFor="let Category of filteredCategories | async" [value]="Category">
+              {{ Category }}
+          </md-option>
+        </md-autocomplete>
+    </md-grid-tile>
+
+    <md-grid-tile colspan="1"> <!-- Cancel Item -->
         <a md-mini-fab (click)="cancelItem()"><md-icon>cancel</md-icon></a>
     </md-grid-tile>
 

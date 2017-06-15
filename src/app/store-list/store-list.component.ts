@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router'
 import { IStoreItem, IStoreList } from './../services/store-list.model';
@@ -17,25 +17,29 @@ import 'rxjs/add/operator/count';
 export class StoreListComponent implements OnInit {
 
  @Output() hideNavBar = true;
+
  addMode: boolean = false;
  sortType: string = 'sequence';
  lastSortType: number = 0;
 
  labelDate: string = 'Date';
- labelChecked: string = 'Checked';
- labelOrder: string = "Ascending";
- labelCategory: string = "Category";
+ labelChecked: string = 'check_box';
+ labelOrder: string = "sort";
+ labelCategory: string = "toc";
 
  public newItemForm: FormGroup;
  public newItemName: FormControl;
  public newItemNote: FormControl;
  public newItemSeq: FormControl;
+ public newItemCategory: FormControl;
 
  private currentStore = 0;
 
  filteredItems: any;
- itemNames: string[];  // Arrary for Autocomplete filtering
- itemCategories: string[];
+ filteredCategories: any;
+
+ itemNames: string[];       // Arrary for Autocomplete filtering
+ itemCategories: string[];  // Array of Categories
 
  listItems: any;
 
@@ -46,6 +50,9 @@ export class StoreListComponent implements OnInit {
       return val ? this.itemNames.filter(item => new RegExp(`^${val}`, 'gi').test(item)) : this.itemNames;
  }
 
+ filterCategories(val: string) {
+      return val ? this.itemNames.filter(category => new RegExp(`^${val}`, 'gi').test(category)) : this.itemCategories;
+ }
   ngOnInit() {
 
     this.itemNames = this.sis.getItemsArray();
@@ -60,11 +67,13 @@ export class StoreListComponent implements OnInit {
     this.newItemName = new FormControl('', Validators.required);
     this.newItemSeq =  new FormControl('', Validators.required);
     this.newItemNote = new FormControl('');
+    this.newItemCategory = new FormControl('', Validators.required);
 
     this.newItemForm = new FormGroup({
        newItemName: this.newItemName,
        newItemSeq:  this.newItemSeq,
-       newItemNote: this.newItemNote
+       newItemNote: this.newItemNote,
+       newItemCategory: this.newItemCategory
     });
 
     this.listItems = this.sis.getStoreItems(this.currentStore, false);
@@ -72,6 +81,10 @@ export class StoreListComponent implements OnInit {
     this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
       .startWith(null)
       .map(i => this.filterItems(i));
+
+    this.filteredCategories = this.newItemForm.controls.newItemCategory.valueChanges
+      .startWith(null)
+      .map(c => this.filterCategories(c));
 
   }
 
@@ -85,6 +98,7 @@ export class StoreListComponent implements OnInit {
     this.newItemSeq.setValue(this.sis.getNextSeq(this.currentStore));
     this.newItemName.setValue(null);
     this.newItemNote.setValue(null);
+    this.newItemCategory.setValue(null);
 
     // this.sis.addItem(this.sis.getNextSeq(this.currentStore), null, null);
   }
@@ -96,7 +110,8 @@ export class StoreListComponent implements OnInit {
   saveNewItem(fV) {
     if (this.newItemForm.valid) {
       console.log('saving formValue');
-      this.sis.addItem(fV.newItemSeq, fV.newItemName, fV.newItemNote, this.itemCategories[this.itemNames.indexOf(fV.newItemName)] );
+      const catPos = this.itemNames.indexOf(fV.newItemName);  // -1 not in category catPos >= 0 ? this.itemCategories[catPos] : ""
+      this.sis.addItem(fV.newItemSeq, fV.newItemName, fV.newItemNote, fV.newItemCategory);
       this.addMode = false;
     } else {
       alert('Input Invalid');
@@ -117,7 +132,7 @@ export class StoreListComponent implements OnInit {
     toggleCheck() {
       console.log('Toggle Check');
         this.labelChecked =
-          this.labelChecked === 'Checked' ? 'Unchecked' : 'Checked';
+          this.labelChecked === 'check_box' ? 'indeterminate_check_box' : 'check_box';
         this.sortBy(this.lastSortType, this.labelDate === 'Newer' ? true : false );
     }
 
@@ -131,23 +146,23 @@ export class StoreListComponent implements OnInit {
     toggleOrder() {
       console.log('Toggle Order');
       this.labelOrder =
-        this.labelOrder === 'Ascending' ? 'Descending' : 'Ascending';
-      this.sortBy(0, this.labelOrder === 'Ascending' ? false : true);
+        this.labelOrder === 'sort' ? 'low_priority' : 'sort';
+      this.sortBy(0, this.labelOrder === 'sort' ? false : true);
     }
 
     toggleCategory() {
       console.log('Toggle Category');
-      if ( this.labelCategory === 'Category On' ) {
-        this.labelCategory = 'Category Off';
+      if ( this.labelCategory === 'toc' ) {
+        this.labelCategory = 'list';
         this.listItems = this.sis.getStoreItemsByCategory(this.currentStore);
     } else {
-        this.labelCategory = 'Category On';
+        this.labelCategory = 'toc';  // Category On
         switch(this.lastSortType) {
           case 0:
-            this.listItems = this.sis.getStoreItems(this.currentStore, this.labelOrder === 'Ascending' ? false : true );
+            this.listItems = this.sis.getStoreItems(this.currentStore, this.labelOrder === 'sort' ? false : true );
             break;
           case 1:
-            this.listItems = this.sis.getStoreItemsByDate(this.currentStore, this.labelOrder === 'Ascending' ? false : true );
+            this.listItems = this.sis.getStoreItemsByDate(this.currentStore, this.labelOrder === 'sort' ? false : true );
             break;
         }
       }

@@ -1,23 +1,30 @@
-  <md-grid-list cols="12" rowHeight="30px">
+  <md-grid-list cols="12" rowHeight="30px" draggable="true" (dragstart)="drag($event)" 
+      (touchstart)="touchStart($event)" (touchmove)="touchMove($event)" 
+      (touchend)="touchEnd($event)" (touchcancel)="touchCancel($event)">
     
     <md-grid-tile colspan="1">
       <md-checkbox [checked]="item.checked" (click)="itemCheck(item.$key)"></md-checkbox>
     </md-grid-tile>
     
     <md-grid-tile colspan="1">
-        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" [value]="item.listSeq">
+        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" 
+        [value]="item.listSeq" disabled>
     </md-grid-tile>
     
     <md-grid-tile colspan="3">
-        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" [value]="item.name">
+        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" 
+        [value]="item.name" disabled>
     </md-grid-tile>
     
-    <md-grid-tile colspan="3">
-        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" [value]="item.note ? item.note : ''">
+    <md-grid-tile colspan="4">
+        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" 
+        [value]="item.note ? item.note : ''" disabled>
     </md-grid-tile>
 
-    <md-grid-tile colspan="2">
-        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" [value]="item.category ? item.category : ''">
+    <md-grid-tile colspan="1"><!--
+        <input class="ColData" [ngClass]="{'Item-Checked': item.checked}" 
+        [value]="item.category ? item.category : ''" disabled>-->
+        <md-icon>{{item.category}}</md-icon>
     </md-grid-tile>
 
     <md-grid-tile colspan="1">
