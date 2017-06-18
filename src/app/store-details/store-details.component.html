@@ -1,4 +1,5 @@
-<form #storeForm="ngForm" (ngSubmit)="submit(storeForm.value)" class="example-form">
+<div *ngFor="let store of (stores | async )">
+<form #storeForm="ngForm" (ngSubmit)="submit(storeForm.value)" class="example-form" *ngIf="store.$key == storeKey">
   <table cellspacing="0">
   <tr><td>
     <md-input-container class="example-full-width">
@@ -80,3 +81,4 @@
       <td><button md-raised-button type="submit">submit</button></td>
   </tr></table>
 </form>
+</div>

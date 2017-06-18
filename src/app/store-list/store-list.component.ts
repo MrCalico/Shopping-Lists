@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute, Params } from '@angular/router'
 import { IStoreItem, IStoreList } from './../services/store-list.model';
 import { StoreItemsService } from '../services/store-items.service';
 import { EventEmitterService } from '../services/event-emitter.service';
@@ -33,7 +33,7 @@ export class StoreListComponent implements OnInit {
  public newItemSeq: FormControl;
  public newItemCategory: FormControl;
 
- private currentStore = 0;
+ @Output() storeId;
 
  filteredItems: any;
  filteredCategories: any;
@@ -44,14 +44,15 @@ export class StoreListComponent implements OnInit {
  listItems: any;
 
  constructor(private _fb: FormBuilder, private sis: StoreItemsService,
-             private route: Router, private ees: EventEmitterService ) { }
+             private router: Router, private route: ActivatedRoute,
+             private ees: EventEmitterService ) { }
 
  filterItems(val: string) {
       return val ? this.itemNames.filter(item => new RegExp(`^${val}`, 'gi').test(item)) : this.itemNames;
  }
 
  filterCategories(val: string) {
-      return val ? this.itemNames.filter(category => new RegExp(`^${val}`, 'gi').test(category)) : this.itemCategories;
+      return val ? this.itemCategories.filter(category => new RegExp(`^${val}`, 'gi').test(category)) : this.itemCategories;
  }
   ngOnInit() {
 
@@ -60,7 +61,7 @@ export class StoreListComponent implements OnInit {
 
     console.log(this.itemNames);
 
-    this.currentStore = 0;  // TODO: get store parameter from snapshot.
+    this.storeId = this.route.snapshot.params['id'];
 
     this.ees.hideNavBar(true);
 
@@ -76,7 +77,7 @@ export class StoreListComponent implements OnInit {
        newItemCategory: this.newItemCategory
     });
 
-    this.listItems = this.sis.getStoreItems(this.currentStore, false);
+    this.listItems = this.sis.getStoreItems(this.storeId, false);
 
     this.filteredItems = this.newItemForm.controls.newItemName.valueChanges
       .startWith(null)
@@ -86,21 +87,33 @@ export class StoreListComponent implements OnInit {
       .startWith(null)
       .map(c => this.filterCategories(c));
 
-  }
+    this.newItemForm.controls.newItemName.valueChanges
+        .filter(item => (item === null) ? false : true )
+        .filter( item =>  { 
+            if (this.itemNames.indexOf(item) !== -1) {
+              return true;
+            } else {
+              this.newItemForm.controls.newItemCategory.setValue(null); // clear category
+              return false;
+            } })
+        .map( item => this.sis.getItemCategory(item).map( o => o[0]['category'] )
+        .subscribe(c => this.newItemForm.controls.newItemCategory.setValue(c) ) )
+        .subscribe();
+}
 
   itemCheck(key) {
-    this.sis.check(key);
+    this.sis.check(this.storeId, key);
   }
 
   addItem() {
     this.addMode = true;
     console.log('add item clicked.');
-    this.newItemSeq.setValue(this.sis.getNextSeq(this.currentStore));
+    this.newItemSeq.setValue(this.sis.getNextSeq(this.storeId));
     this.newItemName.setValue(null);
     this.newItemNote.setValue(null);
     this.newItemCategory.setValue(null);
 
-    // this.sis.addItem(this.sis.getNextSeq(this.currentStore), null, null);
+    // this.sis.addItem(this.sis.getNextSeq(this.storeId), null, null);
   }
 
   cancelItem() {
@@ -110,7 +123,7 @@ export class StoreListComponent implements OnInit {
   saveNewItem(fV) {
     if (this.newItemForm.valid) {
       console.log('saving formValue');
-      const catPos = this.itemNames.indexOf(fV.newItemName);  // -1 not in category catPos >= 0 ? this.itemCategories[catPos] : ""
+
       this.sis.addItem(fV.newItemSeq, fV.newItemName, fV.newItemNote, fV.newItemCategory);
       this.addMode = false;
     } else {
@@ -121,10 +134,10 @@ export class StoreListComponent implements OnInit {
   sortBy(sortType, reverse) {
 
     if ( sortType === 0) {
-      this.listItems = this.sis.getStoreItems(this.currentStore, reverse);
+      this.listItems = this.sis.getStoreItems(this.storeId, reverse);
     }
     if ( sortType === 1 ) {
-      this.listItems = this.sis.getStoreItemsByDate(this.currentStore, reverse);
+      this.listItems = this.sis.getStoreItemsByDate(this.storeId, reverse);
     }
     this.lastSortType = sortType;
    }
@@ -154,15 +167,15 @@ export class StoreListComponent implements OnInit {
       console.log('Toggle Category');
       if ( this.labelCategory === 'toc' ) {
         this.labelCategory = 'list';
-        this.listItems = this.sis.getStoreItemsByCategory(this.currentStore);
+        this.listItems = this.sis.getStoreItemsByCategory(this.storeId);
     } else {
         this.labelCategory = 'toc';  // Category On
         switch(this.lastSortType) {
           case 0:
-            this.listItems = this.sis.getStoreItems(this.currentStore, this.labelOrder === 'sort' ? false : true );
+            this.listItems = this.sis.getStoreItems(this.storeId, this.labelOrder === 'sort' ? false : true );
             break;
           case 1:
-            this.listItems = this.sis.getStoreItemsByDate(this.currentStore, this.labelOrder === 'sort' ? false : true );
+            this.listItems = this.sis.getStoreItemsByDate(this.storeId, this.labelOrder === 'sort' ? false : true );
             break;
         }
       }
@@ -170,6 +183,6 @@ export class StoreListComponent implements OnInit {
 
   return() {
     console.log('return clicked');
-    this.route.navigate(['stores']);
+    this.router.navigate(['stores']);
   }
 }

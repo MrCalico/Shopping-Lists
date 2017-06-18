@@ -1,12 +1,12 @@
-<form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
-
+<!--<form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">-->
 <md-tab-group>
   <md-tab [label]="labelChecked">  <!-- Checked/UnChecked -->
     <ng-template md-tab-label>
       <a (click)="toggleCheck()"><md-icon>{{labelChecked}}</md-icon></a>
     </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked || labelChecked==='check_box'" [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked==='check_box'" 
+                      [item]="item" [storeId]="storeId"></app-store-item>
     </div>
   </md-tab>
   <md-tab label="Sequence">  <!-- Sort/unsort -->
@@ -14,7 +14,8 @@
       <a (click)="toggleOrder()"><md-icon>{{labelOrder}}</md-icon></a>
     </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked || labelChecked === 'check_box'" [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked === 'check_box'" 
+                      [item]="item" [storeId]="storeId"></app-store-item>
     </div>
   </md-tab>
   <md-tab [label]="labelDate">
@@ -22,7 +23,8 @@
       <a (click)="toggleDate()"><md-icon>{{labelDate}}</md-icon></a>
     </ng-template>
     <div *ngFor="let item of listItems | async; let i = index">
-      <app-store-item *ngIf="!item.checked || labelChecked==='check_box'" [item]="item"></app-store-item>
+      <app-store-item *ngIf="!item.checked || labelChecked==='check_box'"
+                      [item]="item" [storeId]="storeId"></app-store-item>
     </div>
   </md-tab>
   <md-tab [label]="labelCategory">  <!-- Categorize -->
@@ -30,17 +32,19 @@
     <a (click)="toggleCategory()"><md-icon>{{labelCategory}}</md-icon></a>
   </ng-template>
   <div *ngFor="let item of listItems | async; let i = index">
-    <app-store-item *ngIf="!item.checked || labelChecked==='check_box'" [item]="item"></app-store-item>
+    <app-store-item *ngIf="!item.checked || labelChecked==='check_box'"
+                    [item]="item" [storeId]="storeId"></app-store-item>
   </div>
 </md-tab>
   <md-tab>
     <ng-template md-tab-label>
-    <button md-mini-fab (click)="return()"><md-icon>apps</md-icon></button> 
+    <button (click)="return()"><md-icon>apps</md-icon></button> 
     </ng-template>
   </md-tab>
 </md-tab-group>
 
 <!-- INPUT FORM COLUMNS -->
+<form [formGroup]="newItemForm" (ngSubmit)="saveNewItem(newItemForm.value)">
 <md-grid-list cols="12" rowHeight="30px" *ngIf="addMode">
 
     <md-grid-tile colspan="1" >
@@ -53,7 +57,8 @@
   
     <md-grid-tile colspan="3"> <!-- Item Name -->
         <input class="ColData" type="text" placeholder="Item Name" 
-            [mdAutocomplete]="autoItem" formControlName="newItemName" id="newItemName" required>
+            [mdAutocomplete]="autoItem" formControlName="newItemName" id="newItemName" required
+            onkeydown = "if (event.keyCode == 13) console.log('Enter')">
         <md-autocomplete #autoItem="mdAutocomplete">
           <md-option class="Item-Option" *ngFor="let item of filteredItems | async" [value]="item">
               {{ item }}
@@ -78,7 +83,6 @@
     <md-grid-tile colspan="1"> <!-- Cancel Item -->
         <a md-mini-fab (click)="cancelItem()"><md-icon>cancel</md-icon></a>
     </md-grid-tile>
-
 </md-grid-list>
 
 <!-- Add Button -->

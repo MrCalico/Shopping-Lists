@@ -38,6 +38,15 @@ export class StoreItemsService {
     }));
   }
 
+  getItemCategory(name) {
+      return this.db.list('/items', {
+        query: {
+          orderByChild: 'name',
+          equalTo: name
+        }
+      });
+  }
+
   getItemCategoriesDistinct() {
     return(this.db.list('/items',
       { preserveSnapshot: true, query: {orderByChild: 'category', limitToFirst: 1}} ));
@@ -66,16 +75,20 @@ export class StoreItemsService {
     let itemCategories: string[] = [];
     this.getItems()
       .subscribe(items => items
-        .forEach(item => { itemCategories.push(item.category); } ));
+        .forEach(item => {
+          if ( itemCategories.indexOf(item.category) === -1) {
+               itemCategories.push(item.category);
+          }
+        } ));
    return(itemCategories);
   }
 
-  getStoreItems(store, reverse) {
-    this.listItems = this.db.list('/stores/0/items');
+  getStoreItems(storeId, reverse) {
+    this.listItems = this.db.list('/stores/' + storeId + '/items');
     if (reverse) { 
-      return(this.listItems.map(i=>{ return i.reverse() }));
+      return(this.listItems.map(i => { return i.reverse(); } ));
     } else {
-      return(this.listItems)
+      return(this.listItems);
     }
   }
 
@@ -85,9 +98,9 @@ export class StoreItemsService {
   getStoreItemByName(store, name) {
   }
 
-  getNextSeq(store) {
+  getNextSeq(storeId) {
      let count = 0;
-     this.getStoreItems(store, false)
+     this.getStoreItems(storeId, false)
         .subscribe(i => i.forEach(c => ++count ));
     return(count + 1);
   }
@@ -105,23 +118,23 @@ export class StoreItemsService {
     this.listItems.update( key, { 'dateTouched': dateTouched } );
   }
 
-  check(key) {
+  check(storeId, key) {
     let checked: boolean = false;
     console.log(key);
-    this.db.object('/stores/0/items/' + key)
+    this.db.object('/stores/' + storeId + '/items/' + key)
       .subscribe( i => i.checked ? checked = false : checked = true );
     console.log(checked);
-    this.db.list('/stores/0/items/')
+    this.db.list('/stores/' + storeId + '/items/')
            .update( key, { 'checked': checked, 'dateTouched': new Date } );
   }
 
-  deleteItem(key) {
+  deleteItem(storeId, key) {
     console.log('Delete: ' + key);
     this.listItems.remove(key);
   }
 
-  getStoreItemsByDate(store, reverse) {
-    const queryObservable = this.db.list('/stores/0/items', {
+  getStoreItemsByDate(storeId, reverse) {
+    const queryObservable = this.db.list('/stores/' + storeId + '/items', {
       query: {
         orderByChild: 'dateTouched'
       }
@@ -133,12 +146,24 @@ export class StoreItemsService {
     }
   }
 
-  getStoreItemsByCategory(store) {
-    return( this.db.list('/stores/0/items', {
+  getStoreItemsByCategory(storeId) {
+    return( this.db.list('/stores/' + storeId + '/items', {
       query: {
         orderByChild: 'category'
       }
     }));
+  }
+
+  getStoreIdByName(name): string {
+    let key = '0';
+    let keys = this.db.list('/stores', { preserveSnapshot: true,
+      query: {
+        orderByChild: 'name',
+        equalTo: name
+      }
+    }).map(snaps => snaps.forEach(snap => snap.key) );
+    console.log('getStoreId(' + name + '): ', keys.subscribe(k => { key = k }));
+    return(key);
   }
 
   getStoreByName(name): FirebaseListObservable<any> {
@@ -150,5 +175,3 @@ export class StoreItemsService {
     }));
   }
 }
-
-

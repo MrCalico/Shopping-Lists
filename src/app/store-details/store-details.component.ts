@@ -17,7 +17,8 @@ export class StoreDetailsComponent implements OnInit {
   storeName = 'Ralphs';
 
   store: IStore = <IStore>{};
-  storeKey: string;
+  stores: any;
+  storeKey: string = '0';
 
   constructor(private db: AngularFireDatabase, private route: ActivatedRoute ) {
 
@@ -25,20 +26,25 @@ export class StoreDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.params.subscribe((params: Params) => {
-      this.db.list('/stores', {
-            query: {
-                orderByChild: 'name',
-                equalTo: params['id']
-              },
-              preserveSnapshot: true
-            }).subscribe( store => store.map( s => { this.store = s.val(); this.storeKey = s.key; } ) );
-    })
+    this.stores = this.db.list('/stores');
+    this.storeKey = this.route.snapshot.params['id'];
+
    }
 
   submit(values) {
 
-    this.db.list('/stores').update(this.storeKey, this.store);
+    console.log('name: ', values);
+    for (let key in values) {
+        if (values.hasOwnProperty(key)) {
+              console.log(key + " -> " + values[key]);
+              if (values[key]) {
+                this.store[key] = values[key];
+              }
+        }
+    }
+
+  this.db.list('/stores').update(this.storeKey, this.store);
+
   }
 
   addnew(values) {

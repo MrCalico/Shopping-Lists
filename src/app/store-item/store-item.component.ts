@@ -10,15 +10,16 @@ import { StoreItemsService } from '../services/store-items.service';
 export class StoreItemComponent implements OnInit {
 
 @Input() item: IStoreItem;
+@Input() storeId;
 @Input() returnClick: EventListener;
 
   constructor(private sis: StoreItemsService) { }
 
   ngOnInit() {  }
 
-  itemCheck(key) { this.sis.check(key); }
+  itemCheck(key) { this.sis.check(this.storeId, key); }
 
-  deleteItem(key) { this.sis.deleteItem(key); }
+  deleteItem(key) { this.sis.deleteItem(this.storeId, key); }
 
   drag(ev) {
     console.log(ev);

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-stores',
   templateUrl: './stores.component.html',
@@ -20,8 +21,10 @@ export class StoresComponent implements OnInit {
     console.log('ngOnInit(Stores)');
   }
 
+/* Replaced in HTML with routerLink
   showStoreItems(store) {
     this.openStoreItems.emit(false);
     this.router.navigate(['storelist', store]);
   }
+*/
 }

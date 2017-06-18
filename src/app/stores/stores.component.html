@@ -1,21 +1,21 @@
-<md-grid-list flex cols="3">
-  <md-grid-tile flex *ngFor="let store of stores | async">
-    <md-card style="width:100; align-content:middle">
+<md-grid-list cols="3">
+  <md-grid-tile *ngFor="let store of stores | async">
+    <md-card style="width:88; align-content:middle">
       <md-card-header>
         <md-card-title>
-          <a routerLink="/store/{{store.name}}">
+          <a routerLink="/store/{{store.$key}}">
             {{store.name}}
           </a>
         </md-card-title>
       </md-card-header>
       <md-card-content>
-        <button md-icon-button (click)="showStoreItems(store.name)">
-          <img [src]="store.iconPath" [alt]="store.name" width="75" height="55">
-        </button>
+        <a routerLink="/storelist/{{store.$key}}">
+          <img [src]="store.iconPath" [alt]="store.name" width="75px" height="60px">
+        </a>
       </md-card-content>
       <md-card-actions>
-        <a md-mini-fab (click)="showStoreItems(store.name)"><md-icon>check</md-icon></a>
-        <a md-mini-fab routerLink="/store/{{store.name}}"><md-icon>settings</md-icon></a>
+        <a md-mini-fab routerLink="/storelist/{{store.$key}}"><md-icon>check</md-icon></a>
+        <a md-mini-fab routerLink="/store/{{store.$key}}"><md-icon>settings</md-icon></a>
       </md-card-actions>
     </md-card>
     <!--  <md-grid-tile-footer>{{store.name}}</md-grid-tile-footer> -->
