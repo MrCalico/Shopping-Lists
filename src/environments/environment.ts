@@ -7,7 +7,7 @@ export const environment = {
   production: false,
 
   firebase: {
-    apiKey: 'AIzaSyB83GthAp9NViecgupdJ0LruAuipII_lvw',
+    apiKey: 'phquAIzaS-yB83GthAp9NViecg-updJ0Lru-AuipII_lvwyzmqz4==',
     authDomain: 'shoplists-c3eee.firebaseapp.com',
     databaseURL: 'https://shoplists-c3eee.firebaseio.com',
     projectId: 'shoplists-c3eee',
